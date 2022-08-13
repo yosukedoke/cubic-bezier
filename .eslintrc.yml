@@ -1,0 +1,13 @@
+env:
+  browser: true
+  es2022: true
+extends:
+  - "plugin:vue/vue3-recommended"
+  - "eslint:recommended"
+  - "@vue/typescript/recommended"
+parserOptions:
+  ecmaVersion: 13
+plugins:
+  - vue
+  - "@typescript-eslint"
+rules: {}
