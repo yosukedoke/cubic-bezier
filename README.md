@@ -3,7 +3,7 @@
 ## ユースケース
 
 ```
-<cubic-bezier v-model:easing="cubic-bezier(.17,.67,.83,.67)" />
+<cubic-bezier-editor v-model:easing="cubic-bezier(.17,.67,.83,.67)" />
 ```
 
 ## 入力
