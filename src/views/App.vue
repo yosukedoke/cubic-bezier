@@ -1,11 +1,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import TextField from './components/TextField.vue'
 import CubicBezierEditor from './components/CubicBezierEditor.vue'
 
 export default defineComponent({
   components: {
     CubicBezierEditor,
+    TextField,
   },
   data() {
     return {
@@ -16,8 +18,8 @@ export default defineComponent({
 </script>
 <template>
   <main>
-    <div class="vstack">
-      <input v-model="easing" type="text" class="input" />
+    <div class="vstack p-4">
+      <TextField v-model="easing" />
       <CubicBezierEditor :easing="easing" />
     </div>
   </main>
@@ -29,9 +31,5 @@ export default defineComponent({
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  padding: 10px;
-}
-.input {
-  width: 100%;
 }
 </style>
