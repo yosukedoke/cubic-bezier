@@ -1,16 +1,78 @@
-# Vue 3 + TypeScript + Vite
+# Cubic bezier のプロパティインスペクターを再現する
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## ユースケース
 
-## Recommended IDE Setup
+```
+<cubic-bezier v-model:easing="cubic-bezier(.17,.67,.83,.67)" />
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+## 入力
 
-## Type Support For `.vue` Imports in TS
+```
+props: {
+  easing: String
+}
+```
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+```
+emits: {
+  ['update:easing']: (payload: string) => boolean
+}
+```
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+## 詳細設計
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+### EasingFunction
+
+```
+// 0 <= t <= 1
+type EasingFunction = (t: number) => number
+```
+
+### CubicBezier
+
+@see https://drafts.csswg.org/css-easing-1/#cubic-bzier-easing-function
+
+- px1: `number` [0.0-1.0]
+- py1: `number` [0.0-1.0]
+- px2: `number` [0.0-1.0]
+- py2: `number` [0.0-1.0]
+
+```
+type CubicBezier = (px1: number, py1: number, px2: number, py2: number) => EasingFunction
+
+// const t = 0.2
+// const v = cubicBezier(px1, py1, px2, py2)(t)
+```
+
+### parseStringFuction
+
+```
+type parseFuction = (name: string) => (value: string) => string[]
+
+// const [px1, py1, px2, py2] = parseFuction('cubic-bezier')(value).map((v) => Number(v))
+```
+
+### Utils
+
+- `type isNumber = (value: unknown) => boolean`
+- `type clamp = (value: number, min: number, max: number) => number`
+- `type percent = (min: number, max: number) => (value: number) => number`
+- `type mapEasing = (from: number, to: number, easing: EasingFunction) => (t: number) => number `
+
+### ラフの実装イメージ
+
+```
+const mapEasing = (from: number, to: number, easing: EasingFunction) => (t: number) => from + (to - from) * easing(t)
+
+const easing = cubicBezier(px1, py1, px2, py2)
+const from = 10
+const to = 100
+const value = mapEasing(from, to, easing)
+
+const duration = 3000
+const update = (time: number) => {
+  const t = percent(time / duration)
+  return value(t)
+}
+```
