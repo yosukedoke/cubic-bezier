@@ -80,7 +80,6 @@ export default {
     'js',
     'ts',
     'json',
-    'vue',
   ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
@@ -96,7 +95,7 @@ export default {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  // preset: undefined,
+  preset: 'ts-jest',
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -140,7 +139,7 @@ export default {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: 'node',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -171,7 +170,6 @@ export default {
   // A map from regular expressions to paths to transformers
   transform: {
     '^.+\\.ts$': 'ts-jest',
-    '^.+\\.vue$': '@vue/vue3-jest',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
