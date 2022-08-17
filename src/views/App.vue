@@ -11,7 +11,7 @@ export default defineComponent({
   },
   data() {
     return {
-      easing: 'cubic-bezier(0.19, 0.5, 0.19, 0.5)',
+      easing: 'cubic-bezier(0.19, 0.5, 0.5, 0.75)',
     }
   },
 })
