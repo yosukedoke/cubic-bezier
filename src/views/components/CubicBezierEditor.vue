@@ -22,16 +22,15 @@ const useEasingArgs = (easing: Ref<string>) => {
   
   return args
 }
-const useCubicBezier = (args: number[]) => {
-  const calc = computed(() => {
-    const [a, b, c, d] = args
-    return mapEasing(0, 1, CubicBezier(a, b, c, d))
-  })
 
+const useCubicBezier = (args: number[]) => {
   const values = computed(() => {
+    const [a, b, c, d] = args
+    const calc = mapEasing(0, 1, CubicBezier(a, b, c, d))
+    
     return Array.from({ length: 101 }, (_, i) => {
       const t = i / 100
-      return calc.value(t)
+      return calc(t)
     })
   })
 
