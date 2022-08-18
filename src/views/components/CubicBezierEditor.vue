@@ -1,41 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent, Ref, reactive, watch, toRefs } from 'vue'
-import functionParser from '../../logic/utils/functionParser'
-import mapEasing from '../../logic/utils/mapEasing'
-import { CubicBezier } from '../../logic/easing'
+import { defineComponent, toRefs } from 'vue'
 
 import NumberField from './NumberField.vue'
 import CurveGraph from './CurveGraph.vue'
 
-const { parse, stringify } = functionParser('cubic-bezier')
-
-const useEasingArgs = (easing: Ref<string>) => {
-  const args = reactive(parse(easing.value).map((v) => Number(v)))
-
-  watch(easing, () => {
-    try {
-      args.splice(0, args.length, ...parse(easing.value).map((v) => Number(v)))
-    } catch(error) {
-      // Nothing to do
-    }
-  })
-  
-  return args
-}
-
-const useCubicBezier = (args: number[]) => {
-  const values = computed(() => {
-    const [a, b, c, d] = args
-    const calc = mapEasing(0, 1, CubicBezier(a, b, c, d))
-    
-    return Array.from({ length: 101 }, (_, i) => {
-      const t = i / 100
-      return calc(t)
-    })
-  })
-
-  return values
-}
+import { useEasingArgs, useCubicBezier} from './CubicBezierEditor.hooks'
 
 export default defineComponent({
   components: { NumberField, CurveGraph },
@@ -49,12 +18,12 @@ export default defineComponent({
   setup(props, { emit}) {
     const { easing } = toRefs(props)
 
-    const args = useEasingArgs(easing)
-    const values = useCubicBezier(args)
+    const onUpdated = (easing: string) => {
+      emit('update:easing', easing)
+    }
 
-    watch(args, () => {
-      emit('update:easing', stringify(args))
-    })
+    const args = useEasingArgs(easing, onUpdated)
+    const values = useCubicBezier(args)
 
     return {
       args,
