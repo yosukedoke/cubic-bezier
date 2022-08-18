@@ -9,6 +9,35 @@ import CurveGraph from './CurveGraph.vue'
 
 const parse = parseFunction('cubic-bezier')
 
+const useCubicBezier = (easing: string) => {
+  const args = ref([0, 0, 1, 1])
+
+  watchEffect(() => {
+    try {
+      args.value = parse(easing).map((v) => Number(v))
+    } catch(error) {
+      // Nothing to do
+    }
+  })
+  
+  const calc = computed(() => {
+    const [a, b, c, d] = unref(args)
+    return mapEasing(0, 1, CubicBezier(a, b, c, d))
+  })
+
+  const values = computed(() => {
+    return Array.from({ length: 101 }, (_, i) => {
+      const t = i / 100
+      return calc.value(t)
+    })
+  })
+
+  return {
+    args,
+    values,
+  }
+}
+
 export default defineComponent({
   components: { NumberField, CurveGraph },
   props: {
@@ -18,27 +47,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const args = ref([0, 0, 1, 1])
-
-    watchEffect(() => {
-      try {
-        args.value = parse(props.easing).map((v) => Number(v))
-      } catch(error) {
-        // Nothing to do
-      }
-    })
-    
-    const calc = computed(() => {
-      const [a, b, c, d] = unref(args)
-      return mapEasing(0, 1, CubicBezier(a, b, c, d))
-    })
-
-    const values = computed(() => {
-      return Array.from({ length: 101 }, (_, i) => {
-        const t = i / 100
-        return calc.value(t)
-      })
-    })
+    const { args, values } = useCubicBezier(props.easing)
 
     return {
       args,
