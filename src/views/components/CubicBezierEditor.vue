@@ -2,7 +2,7 @@
 import { computed, defineComponent, Ref, reactive, watch, toRefs } from 'vue'
 import functionParser from '../../logic/utils/functionParser'
 import mapEasing from '../../logic/utils/mapEasing'
-import { Linear, CubicBezier } from '../../logic/easing'
+import { CubicBezier } from '../../logic/easing'
 
 import NumberField from './NumberField.vue'
 import CurveGraph from './CurveGraph.vue'
