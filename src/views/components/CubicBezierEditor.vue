@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, ref, unref, watchEffect } from 'vue'
+import { computed, defineComponent, Ref, reactive, watch, toRefs } from 'vue'
 import functionParser from '../../logic/utils/functionParser'
 import mapEasing from '../../logic/utils/mapEasing'
 import { Linear, CubicBezier } from '../../logic/easing'
@@ -9,19 +9,22 @@ import CurveGraph from './CurveGraph.vue'
 
 const { parse, stringify } = functionParser('cubic-bezier')
 
-const useCubicBezier = (easing: string) => {
-  const args = ref([0, 0, 1, 1])
+const useEasingArgs = (easing: Ref<string>) => {
+  const args = reactive(parse(easing.value).map((v) => Number(v)))
 
-  watchEffect(() => {
+  watch(easing, () => {
     try {
-      args.value = parse(easing).map((v) => Number(v))
+      args.splice(0, args.length, ...parse(easing.value).map((v) => Number(v)))
     } catch(error) {
       // Nothing to do
     }
   })
   
+  return args
+}
+const useCubicBezier = (args: number[]) => {
   const calc = computed(() => {
-    const [a, b, c, d] = unref(args)
+    const [a, b, c, d] = args
     return mapEasing(0, 1, CubicBezier(a, b, c, d))
   })
 
@@ -32,10 +35,7 @@ const useCubicBezier = (easing: string) => {
     })
   })
 
-  return {
-    args,
-    values,
-  }
+  return values
 }
 
 export default defineComponent({
@@ -47,7 +47,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { args, values } = useCubicBezier(props.easing)
+    const { easing } = toRefs(props)
+
+    const args = useEasingArgs(easing)
+    const values = useCubicBezier(args)
 
     return {
       args,
