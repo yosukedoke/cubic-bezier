@@ -1,13 +1,13 @@
 <script lang="ts">
 import { computed, defineComponent, ref, unref, watchEffect } from 'vue'
-import parseFunction from '../../logic/utils/parseFunction'
+import functionParser from '../../logic/utils/functionParser'
 import mapEasing from '../../logic/utils/mapEasing'
 import { Linear, CubicBezier } from '../../logic/easing'
 
 import NumberField from './NumberField.vue'
 import CurveGraph from './CurveGraph.vue'
 
-const parse = parseFunction('cubic-bezier')
+const { parse, stringify } = functionParser('cubic-bezier')
 
 const useCubicBezier = (easing: string) => {
   const args = ref([0, 0, 1, 1])
