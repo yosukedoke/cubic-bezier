@@ -20,7 +20,7 @@ export default defineComponent({
   <main>
     <div class="vstack p-4">
       <TextField v-model="easing" />
-      <CubicBezierEditor :easing="easing" />
+      <CubicBezierEditor v-model:easing="easing" />
     </div>
   </main>
 </template>

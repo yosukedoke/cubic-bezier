@@ -45,11 +45,16 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  emits: ['update:easing'],
+  setup(props, { emit}) {
     const { easing } = toRefs(props)
 
     const args = useEasingArgs(easing)
     const values = useCubicBezier(args)
+
+    watch(args, () => {
+      emit('update:easing', stringify(args))
+    })
 
     return {
       args,
