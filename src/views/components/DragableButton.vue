@@ -153,13 +153,13 @@ export default defineComponent({
       @mousemove="mousemove"
     >
       <button
-       :class="['w-8 h-8 absolute -translate-x-4 -translate-y-4', { border: debug }]" :style="buttonAStyle"
+       :class="['w-4 h-4 absolute -translate-x-2 -translate-y-2', { border: debug }]" :style="buttonAStyle"
         @mousedown="buttonA.mousedown"
         @mouseup="buttonA.mouseup"
       ></button>
 
       <button
-        :class="['w-8 h-8 absolute -translate-x-4 -translate-y-4', { border: debug }]" :style="buttonBStyle"
+        :class="['w-4 h-4 absolute -translate-x-2 -translate-y-2', { border: debug }]" :style="buttonBStyle"
         @mousedown="buttonB.mousedown"
         @mouseup="buttonB.mouseup"
       ></button>

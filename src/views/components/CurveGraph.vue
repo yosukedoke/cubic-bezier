@@ -85,24 +85,42 @@ export default CurveGraph
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox" :width="width" :height="height">
       <rect v-if="debug" :x="offset" :y="offset" :width="100" :height="100" stroke-width="0.2" stroke="red" fill="transparent" />
-      <polyline
-        :points="points"
-        fill="transparent"/>
-      <!-- Handles -->
-      <line :x1="startPoint.x" :y1="startPoint.y" :x2="startHandle.x" :y2="startHandle.y" />
-      <line :x1="endPoint.x" :y1="endPoint.y" :x2="endHandle.x" :y2="endHandle.y" />
-      <rect
-        :x="startHandle.x - 5" :y="startHandle.y - 5"
-        width="10.9" height="10.9"
-        fill="#99F" label="Handle to control p1 point"
-        />
-      <rect
-        :x="endHandle.x - 5" :y="endHandle.y - 5"
-        width="10.90" height="10.9"
-        fill="#99F" label="Handle to control p2 point"
+
+      <line :x1="startPoint.x" :y1="startPoint.y" :x2="endPoint.x" :y2="endPoint.y" stroke="#e3e3e3" stroke-width="1" />
+
+      <line
+        :x1="startPoint.x" :y1="startPoint.y" :x2="startHandle.x" :y2="startHandle.y"
+        stroke-width="0.5"
+        stroke="#871cca"
+      />
+      <line
+        :x1="endPoint.x" :y1="endPoint.y" :x2="endHandle.x" :y2="endHandle.y"
+        stroke-width="0.5"
+        stroke="#871cca"
       />
 
-      <ellipse :cx="startPoint.x" :cy="startPoint.y" rx="2" ry="2" fill="white" />
-      <ellipse :cx="endPoint.x" :cy="endPoint.y" rx="2" ry="2" fill="white" />
+      <polyline
+        :points="points"
+        stroke="#666" stroke-width="1"
+        fill="transparent"/>
+      <ellipse :cx="startPoint.x" :cy="startPoint.y" rx="1" ry="1" fill="#666" stroke-width="0" />
+      <ellipse :cx="endPoint.x" :cy="endPoint.y" rx="1" ry="1" fill="#666" stroke-width="0" />
+
+      <!-- Handles -->
+      <ellipse
+        label="Handle to control p1 point"
+        :cx="startHandle.x" :cy="startHandle.y"
+        rx="4" ry="4"
+        fill="#871cca"
+        stroke-width="0"
+        />
+      <ellipse
+        abel="Handle to control p2 point"
+        :cx="endHandle.x" :cy="endHandle.y"
+        rx="4" ry="4"
+        width="10.90" height="10.9"
+        fill="#871cca"
+        stroke-width="0"
+      />
     </svg>
 </template>
