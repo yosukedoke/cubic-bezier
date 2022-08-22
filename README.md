@@ -1,12 +1,23 @@
 # Cubic bezier のプロパティインスペクターを再現する
 
-## ユースケース
+## 確認方法
+
+```
+npm i
+npm run dev
+```
+
+Launch `http://localhost:5173/` on your browser.
+
+## 概要設計
+
+### ユースケース
 
 ```
 <cubic-bezier-editor v-model:easing="cubic-bezier(.17,.67,.83,.67)" />
 ```
 
-## 入力
+### 入力
 
 ```
 props: {
