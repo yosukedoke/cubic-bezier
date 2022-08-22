@@ -3,7 +3,7 @@
 ## ユースケース
 
 ```
-<cubic-bezier v-model:easing="cubic-bezier(.17,.67,.83,.67)" />
+<cubic-bezier-editor v-model:easing="cubic-bezier(.17,.67,.83,.67)" />
 ```
 
 ## 入力
@@ -48,9 +48,9 @@ type CubicBezier = (px1: number, py1: number, px2: number, py2: number) => Easin
 ### parseStringFuction
 
 ```
-type parseFuction = (name: string) => (value: string) => string[]
+type parseFunction = (name: string) => (value: string) => string[]
 
-// const [px1, py1, px2, py2] = parseFuction('cubic-bezier')(value).map((v) => Number(v))
+// const [px1, py1, px2, py2] = parseFunction('cubic-bezier')(value).map((v) => Number(v))
 ```
 
 ### Utils
